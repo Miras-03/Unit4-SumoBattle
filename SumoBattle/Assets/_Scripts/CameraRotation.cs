@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraRotation : MonoBehaviour
 {
-    private const int rotationSpeed = 45;
+    private const int rotationSpeed = 150;
 
     private void FixedUpdate() => CheckOrRotate();
 
