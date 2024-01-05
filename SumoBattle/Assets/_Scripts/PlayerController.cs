@@ -28,13 +28,6 @@ public sealed class PlayerController : MonoBehaviour
             ApplyPowerup(collision);
     }
 
-    private void ApplyPowerup(Collision collision)
-    {
-        Rigidbody enemyRb = collision.collider.GetComponent<Rigidbody>();
-        Vector3 direction = collision.transform.position - transform.position;
-        enemyRb.AddForce(direction * powerupStrength, ForceMode.Impulse);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Powerup"))
@@ -44,6 +37,13 @@ public sealed class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             StartCoroutine(PowerupCountDown());
         }
+    }
+
+    private void ApplyPowerup(Collision collision)
+    {
+        Rigidbody enemyRb = collision.collider.GetComponent<Rigidbody>();
+        Vector3 direction = collision.transform.position - transform.position;
+        enemyRb.AddForce(direction * powerupStrength, ForceMode.Impulse);
     }
 
     private void CheckOrMove()
