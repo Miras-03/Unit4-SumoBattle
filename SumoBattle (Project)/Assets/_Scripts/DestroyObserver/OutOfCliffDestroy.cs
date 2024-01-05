@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class OutOfCliffDestroy : MonoBehaviour, ICountable
+public class OutOfCliffDestroy : MonoBehaviour
 {
     private SpawnManager spawner;
 

@@ -1,13 +1,12 @@
 using System.Collections;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public sealed class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private Transform enemy;
+    [SerializeField] private Transform[] enemies;
     [SerializeField] private Transform powerup;
 
-    private int enemiesQuantity = 1;
+    private int wavesCount = 1;
 
     private void Start()
     {
@@ -36,13 +35,14 @@ public sealed class SpawnManager : MonoBehaviour
     private IEnumerator SpawnWithDelay()
     {
         yield return new WaitForSeconds(2);
-        for (int i = 0; i < enemiesQuantity; i++)
+        int maxRange = wavesCount > 2 ? 3 : 2;
+        for (int i = 0; i < wavesCount; i++)
         {
             Vector3 randVector;
             GeneratyRandomVector(out randVector);
-            Instantiate(enemy, randVector, Quaternion.identity);
+            Instantiate(enemies[Random.Range(0, maxRange)], randVector, Quaternion.identity);
         }
-        EnemyDeathCount.Instance.Count = enemiesQuantity;
-        enemiesQuantity++;
+        EnemyDeathCount.Instance.Count = wavesCount;
+        wavesCount++;
     }
 }

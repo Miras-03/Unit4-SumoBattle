@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public sealed class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     private GameObject player;
     private Rigidbody rb;
@@ -17,6 +17,6 @@ public sealed class Enemy : MonoBehaviour
     private void Chase()
     {
         Vector3 lookDirection = player.transform.position - transform.position.normalized;
-        rb.AddForce(lookDirection * chaseSpeed * Time.fixedDeltaTime);
+        rb.AddForce(lookDirection * chaseSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
     }
 }
