@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class CountDown : MonoBehaviour
+public sealed class PointerLifeRoutine : MonoBehaviour
 {
     private void Start() => StartCoroutine(PowerupCountDown());
 

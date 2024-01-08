@@ -4,7 +4,7 @@ public class Enemy : MonoBehaviour
 {
     private GameObject player;
     private Rigidbody rb;
-    private const int chaseSpeed = 20;
+    private const int chaseSpeed = 30;
 
     private void Awake()
     {

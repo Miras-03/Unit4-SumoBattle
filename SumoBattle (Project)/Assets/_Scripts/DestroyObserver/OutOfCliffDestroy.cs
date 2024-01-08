@@ -1,8 +1,7 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class OutOfCliffDestroy : MonoBehaviour
+public sealed class OutOfCliffDestroy : MonoBehaviour
 {
     private SpawnManager spawner;
 
@@ -32,9 +31,6 @@ public class OutOfCliffDestroy : MonoBehaviour
     {
         int count = --EnemyDeathCount.Instance.Count;
         if (count == 0)
-        {
-            spawner.SpawnPowerup();
-            spawner.SpawnEnemy();
-        }
+            spawner.OnNewWave.Invoke();
     }
 }

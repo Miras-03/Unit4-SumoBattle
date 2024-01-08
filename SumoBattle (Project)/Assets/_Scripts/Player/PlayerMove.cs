@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMove
+public sealed class PlayerMove
 {
     private Rigidbody rb;
     private Transform focusCentre;
@@ -24,22 +24,15 @@ public class PlayerMove
     private void Move()
     {
         int speed = isPressingBoost ? boostSpeed : moveSpeed;
-        Debug.Log(speed);
         rb.AddForce(focusCentre.forward * GetVerticalInput() * speed * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     public void IsPressingBoost()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
             isPressingBoost = true;
-            Debug.Log(isPressingBoost);
-        }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
             isPressingBoost = false;
-            Debug.Log(isPressingBoost);
-        }
     }
 
     private float GetVerticalInput() => Input.GetAxis("Vertical");
