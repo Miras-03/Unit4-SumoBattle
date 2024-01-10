@@ -1,15 +1,19 @@
+using System;
 using UnityEngine;
 
 namespace Powerup.Pushpowerup
 {
     public sealed class Projectile : MonoBehaviour
     {
+        private Action<Projectile> OnObjectRelease;
         private Rigidbody rb;
 
         private const int speed = 5;
         private const int powerupStrength = 500;
 
         private void Awake() => rb = GetComponent<Rigidbody>();
+
+        public void Init(Action<Projectile> OnObjectRelease) => this.OnObjectRelease = OnObjectRelease;
 
         private void FixedUpdate()
         {
@@ -25,7 +29,7 @@ namespace Powerup.Pushpowerup
             if (collision.CompareTag("Enemy"))
             {
                 ApplyPowerup(collision);
-                Destroy(gameObject);
+                OnObjectRelease(this);
             }
         }
 
@@ -37,5 +41,6 @@ namespace Powerup.Pushpowerup
         }
 
         public Transform Target { get; set; }
+        public Rigidbody Rigidbody => rb;
     }
 }

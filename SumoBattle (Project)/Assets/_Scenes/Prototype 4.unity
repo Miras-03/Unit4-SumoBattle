@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d54a38a7d5f21748b2873bc1f783a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 6182303755175732664, guid: ce6395a5d10a1254dabb8ebad2350eb5, type: 3}
+  projectile: {fileID: 8797593513120638485, guid: ce6395a5d10a1254dabb8ebad2350eb5, type: 3}
 --- !u!1 &1101518859
 GameObject:
   m_ObjectHideFlags: 0

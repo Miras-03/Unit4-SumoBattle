@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Powerup.Pushpowerup;
+using UnityEngine.Pool;
 
 namespace Powerup.Shootpowerup
 {
@@ -10,12 +11,20 @@ namespace Powerup.Shootpowerup
         public Action OnPowerupTake;
         public Action OnPowerupOver;
 
-        [SerializeField] private Transform projectile;
+        [SerializeField] private Projectile projectile;
         private PlayerController playerController;
+        private ObjectPool<Projectile> pool;
 
         private const int distanceView = 25;
 
-        private void Awake() => playerController = GetComponent<PlayerController>();
+        private void Awake()
+        {
+            playerController = GetComponent<PlayerController>();
+            pool = new ObjectPool<Projectile>(CreateObject, GetObject, ReleaseObject, DestroyObject,
+                collectionCheck: false,
+                defaultCapacity: 9,
+                maxSize: 18 );
+        }
 
         private void OnEnable()
         {
@@ -42,6 +51,24 @@ namespace Powerup.Shootpowerup
             StopAllCoroutines();
         }
 
+        private Projectile CreateObject() => Instantiate(projectile, transform.position, Quaternion.identity);
+
+        private void GetObject(Projectile obj) => obj.gameObject.SetActive(true);
+
+        private void ReleaseObject(Projectile obj) => obj.gameObject.SetActive(false);
+
+        private void DestroyObject(Projectile obj) => Destroy(obj.gameObject);
+
+        private void RemoveObject(Projectile obj) => pool.Release(obj);
+
+        private void ResetObjectProperties(Projectile obj)
+        {
+            obj.transform.position = transform.position;
+            obj.transform.rotation = Quaternion.identity;
+            obj.Rigidbody.velocity = Vector3.zero;
+            obj.Rigidbody.angularVelocity = Vector3.zero;
+        }
+
         private IEnumerator LaunchProjectiles()
         {
             while (true)
@@ -57,8 +84,10 @@ namespace Powerup.Shootpowerup
                             float distance = Vector3.Distance(t.position, transform.position);
                             if (distance < distanceView)
                             {
-                                Transform p = Instantiate(projectile, transform.position, Quaternion.identity);
-                                p.GetComponent<Projectile>().Target = t;
+                                Projectile obj = pool.Get();
+                                ResetObjectProperties(obj);
+                                obj.GetComponent<Projectile>().Target = t;
+                                obj.Init(RemoveObject);
                             }
                         }
                     }
@@ -70,7 +99,7 @@ namespace Powerup.Shootpowerup
 
         private Transform[] GetEnemyTargets()
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            Enemy[] enemies = FindObjectsOfType<Enemy>();
             int enemyCount = enemies.Length;
             Transform[] targets = new Transform[enemyCount];
 
