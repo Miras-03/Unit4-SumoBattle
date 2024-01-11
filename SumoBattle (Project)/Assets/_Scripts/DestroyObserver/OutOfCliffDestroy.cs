@@ -3,9 +3,16 @@ using UnityEngine;
 
 public sealed class OutOfCliffDestroy : MonoBehaviour
 {
-    private SpawnManager spawner;
+    private PowerupSpawner powerupSpawner;
+    private EnemySpawner enemySpawner;
 
-    private void Awake() => spawner = FindObjectOfType<SpawnManager>();
+    private const int waitSec = 1;
+
+    private void Awake()
+    {
+        powerupSpawner = FindObjectOfType<PowerupSpawner>();
+        enemySpawner = FindObjectOfType<EnemySpawner>();
+    }
 
     private void Start() => StartCoroutine(DelayOrDestroy());
 
@@ -22,15 +29,18 @@ public sealed class OutOfCliffDestroy : MonoBehaviour
     {
         if (transform.position.y < 0)
         {
-            Destroy(gameObject);
-            DecreaseCount();
+            CheckAndExecuteWave();
+            Destroy(gameObject, waitSec);
         }
     }
 
-    public void DecreaseCount()
+    public void CheckAndExecuteWave()
     {
         int count = --EnemyDeathCount.Instance.Count;
         if (count == 0)
-            spawner.OnNewWave.Invoke();
+        {
+            powerupSpawner.OnNewWave.Invoke();
+            enemySpawner.OnNewWave.Invoke();
+        }
     }
 }

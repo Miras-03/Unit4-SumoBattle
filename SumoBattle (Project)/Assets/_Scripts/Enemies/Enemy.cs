@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private GameObject player;
+    [SerializeField] private int chaseSpeed = 20;
+    private PlayerController player;
     private Rigidbody rb;
-    private const int chaseSpeed = 30;
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = FindObjectOfType<PlayerController>();
         rb = GetComponent<Rigidbody>();
     }
 

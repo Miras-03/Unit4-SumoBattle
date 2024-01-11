@@ -1,7 +1,7 @@
 public sealed class EnemyDeathCount
 {
     private static EnemyDeathCount instance;
-    private int count;
+    private int count = 1;
 
     public static EnemyDeathCount Instance
     {
