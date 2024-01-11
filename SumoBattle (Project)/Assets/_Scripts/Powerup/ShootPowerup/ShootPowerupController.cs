@@ -40,14 +40,14 @@ namespace Powerup.Shootpowerup
 
         private void TakePowerup()
         {
-            playerController.SetPowerupIndicator(true);
+            playerController.SetShootpowerup(true);
             StartCoroutine(PowerupCountDown());
             StartCoroutine(LaunchProjectiles());
         }
-
+        
         private void OverPowerup()
         {
-            playerController.SetPowerupIndicator(false);
+            playerController.SetShootpowerup(false);
             StopAllCoroutines();
         }
 
@@ -73,6 +73,7 @@ namespace Powerup.Shootpowerup
         {
             while (true)
             {
+                Debug.Log("ShootPowerup");
                 Transform[] enemies = GetEnemyTargets();
                 bool isThereAnyEnemy = enemies != null && enemies.Length > 0;
                 while (isThereAnyEnemy)

@@ -37,13 +37,13 @@ namespace Powerup.Pushpowerup
         {
             StartCoroutine(PowerupCountDown());
             hasPowerUp = true;
-            playerController.SetPowerupIndicator(true);
+            playerController.SetPushPowerup(true);
         }
 
         private void OverPowerup()
         {
             hasPowerUp = !hasPowerUp;
-            playerController.SetPowerupIndicator(false);
+            playerController.SetPushPowerup(false);
         }
 
         private void ApplyPowerup(Collision collision)

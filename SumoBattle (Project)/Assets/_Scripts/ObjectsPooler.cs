@@ -30,11 +30,16 @@ public sealed class ObjectsPooler : MonoBehaviour
         }
 
         Transform obj = poolDictionary[tag].Dequeue();
-        obj.position = position;
-        obj.rotation = rotation;
-        obj.gameObject.SetActive(true);
+        if (obj != null)
+        {
+            obj.position = position;
+            obj.rotation = rotation;
+            obj.gameObject.SetActive(true);
+            poolDictionary[tag].Enqueue(obj);
 
-        return obj;
+            return obj;
+        }
+        return null;
     }
 
     [System.Serializable]
