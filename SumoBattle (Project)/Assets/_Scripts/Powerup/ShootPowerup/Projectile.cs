@@ -41,6 +41,7 @@ namespace Powerup.Pushpowerup
         }
 
         public Transform Target { get; set; }
+
         public Rigidbody Rigidbody => rb;
     }
 }

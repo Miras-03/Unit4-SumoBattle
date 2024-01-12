@@ -73,10 +73,9 @@ namespace Powerup.Shootpowerup
         {
             while (true)
             {
-                Debug.Log("ShootPowerup");
                 Transform[] enemies = GetEnemyTargets();
-                bool isThereAnyEnemy = enemies != null && enemies.Length > 0;
-                while (isThereAnyEnemy)
+                bool areThereEnemies = enemies != null;
+                if (areThereEnemies)
                 {
                     foreach (Transform t in enemies)
                     {
@@ -92,9 +91,8 @@ namespace Powerup.Shootpowerup
                             }
                         }
                     }
-                    yield return new WaitForSeconds(1);
                 }
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(1);
             }
         }
 
