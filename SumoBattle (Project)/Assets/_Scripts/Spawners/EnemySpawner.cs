@@ -6,12 +6,16 @@ public sealed class EnemySpawner : MonoBehaviour
 {
     public Action OnNewWave;
     private ObjectsPooler objectsPooler;
+    private WaveStage waveStage;
 
-    private int waveCount = 1;
     private const int startSec = 2;
     private const int diffucultStage = 2;
 
-    private void Awake() => objectsPooler = GetComponent<ObjectsPooler>();
+    private void Awake()
+    {
+        objectsPooler = GetComponent<ObjectsPooler>();
+        waveStage = WaveStage.Instance;
+    }
 
     private void Start()
     {
@@ -28,17 +32,15 @@ public sealed class EnemySpawner : MonoBehaviour
     private IEnumerator GetWithDelay()
     {
         yield return new WaitForSeconds(startSec);
-        for (int i = 0; i < waveCount; i++)
+        for (int i = 0; i < waveStage.Stage; i++)
             objectsPooler.GetObjects(GenerateRandomTag().ToString(), GenerateRandomVector(), Quaternion.identity);
-        EnemyDeathCount.Instance.Count = waveCount;
-        waveCount++;
     }
 
     private ObjectTypes GenerateRandomTag()
     {
         ObjectTypes[] randomEnemies = { ObjectTypes.OrdinaryEnemy, ObjectTypes.HeavyEnemy, ObjectTypes.BigEnemy };
         int enemiesCount = randomEnemies.Length;
-        int randIndex = waveCount > diffucultStage ? UnityEngine.Random.Range(0, enemiesCount) : UnityEngine.Random.Range(0, enemiesCount-1);
+        int randIndex = waveStage.Stage > diffucultStage ? UnityEngine.Random.Range(0, enemiesCount) : 0;
         return randomEnemies[randIndex];
     }
 

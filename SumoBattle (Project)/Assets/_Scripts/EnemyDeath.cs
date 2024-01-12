@@ -1,14 +1,14 @@
-public sealed class EnemyDeathCount
+public sealed class EnemyDeath
 {
-    private static EnemyDeathCount instance;
+    private static EnemyDeath instance;
     private int count = 1;
 
-    public static EnemyDeathCount Instance
+    public static EnemyDeath Instance
     {
         get
         {
             if (instance == null)
-                instance = new EnemyDeathCount();
+                instance = new EnemyDeath();
             return instance;
         }
     }
